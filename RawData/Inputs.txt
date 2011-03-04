@@ -1,0 +1,43 @@
+R = {classrooms, r € R}
+T = {time patterns, t € T}
+L = {slots, l = (r,t) € L} 
+Ls = { slots with feasibly classroom & timepattern for section s }
+Ti = { feasible time pattern for instructor i }
+Tr = { feasible time pattern for room r }
+t(l)€T = the time pattern associated with slot l
+r(l)€R = the classroom associated with slot l
+Si = { sections to which instructor i is assigned }
+
+Xsl = { 1 if section s is assigned to slot l € Ls, 0 otherwise }
+
+Es1s2 = expected student conflicts if sections s1 and s2 meet simultaneously (the number of students jointly enrolled in s1 and s2)
+Wsl = instructor preference for meeting section s using time pattern of slot l
+deltas1l1s2l2 = value of instructor preference for a relation between section s1 assigned to slot l1 and section s2 assigned to l2
+rhosl = the room fit (enrollment in section s / room capacity) and other criteria like distance from professor's office.
+
+minimize Z1 = max(Es1s2 * Xs1l1 * Xs2l2)
+maximize Z2 = sum foreach(section)foreach(slot)(Wsl + rhosl)(Xsl)
+ + sum foreach(section)foreach(timeslot) deltas1l1s2l2 * Xs1l1 * Xs2l2
+constraints:
+ foreach (instructor, timeslot) sum(Xsl) <= 1
+ foreach (room, timeslot) sum(Xsl) <= 1
+ foreach (section) sum(Xsl) = 1
+ foreach (section's unused slots) sum(Xsl) = 0
+
+Search:
+j = some choice (combination of s,r, and t)
+Js = {j : s(j) = s} (valid choices for section s)
+Xj = 1 if s(j),r(j),t(j), otherwise 0;
+Cj = Wsl + rhosl (for j)
+Djk = deltas1l1s2l2 for j=s1l1 & k=s2l2
+
+maximize Z = sum(foreach(j) CjXj - foreach(j,k)(Djk * Xj* Xk)
+constraints:
+	sum foreach(j) Xj = 1 for each s (section only assigned once)
+	Xj + Xk <= 1 for all conlicting choices j & k, j!=k
+
+
+ 
+ 
+ 
+ 
