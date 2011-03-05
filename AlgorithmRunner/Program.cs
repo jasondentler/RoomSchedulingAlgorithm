@@ -34,10 +34,8 @@ namespace AlgorithmRunner
 
         private void BuildTimePatterns()
         {
-            var loader = new TimePatternLoader(
-                Path.Combine(RawDataDirectory, "SectionMeetings.xml"));
-            var sw = loader.Load();
-            File.WriteAllText(Path.Combine(RawDataDirectory, "Patterns.txt"), sw.ToString());
+            var generator = new TimePatternGenerator();
+            var patterns = generator.Generate();
         }
 
     }
