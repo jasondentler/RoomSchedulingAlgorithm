@@ -8,9 +8,9 @@ namespace AlgorithmRunner
 
     public struct TimePattern
     {
-        public DaysOfWeekBitMask Days;
-        public DateTime Start;
-        public DateTime End;
+        public readonly DaysOfWeekBitMask Days;
+        public readonly DateTime Start;
+        public readonly DateTime End;
 
         public TimePattern(DaysOfWeekBitMask days, DateTime start, DateTime end)
         {
@@ -95,7 +95,7 @@ namespace AlgorithmRunner
             if (days.Contains(DaysOfWeekBitMask.Monday))
                 result.Append("M");
             if (days.Contains(DaysOfWeekBitMask.Tuesday))
-                result.Append("Tu");
+                result.Append("T");
             if (days.Contains(DaysOfWeekBitMask.Wednesday))
                 result.Append("W");
             if (days.Contains(DaysOfWeekBitMask.Thursday))
@@ -103,7 +103,7 @@ namespace AlgorithmRunner
             if (days.Contains(DaysOfWeekBitMask.Friday))
                 result.Append("F");
             if (days.Contains(DaysOfWeekBitMask.Saturday))
-                result.Append("Sa");
+                result.Append("S");
             return result.ToString();
         }
 

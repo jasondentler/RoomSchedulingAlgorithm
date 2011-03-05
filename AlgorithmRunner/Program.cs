@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace AlgorithmRunner
 {
@@ -18,7 +19,7 @@ namespace AlgorithmRunner
         static void Main(string[] args)
         {
             var p = new Program();
-            p.BuildTimePatterns();
+            p.BuildTimeslots();
             Console.WriteLine("Press any key");
             Console.ReadKey();
         }
@@ -32,10 +33,19 @@ namespace AlgorithmRunner
             weights.Generate(Path.Combine(RawDataDirectory, "ConflictWeights.xml"));
         }
 
-        private void BuildTimePatterns()
+        private void BuildTimeslots()
         {
-            var generator = new TimePatternGenerator();
-            var patterns = generator.Generate();
+            var roomLoader = new RoomLoader(Path.Combine(RawDataDirectory, "Rooms.xml"));
+            var rooms = roomLoader.Load().OrderBy(r => r.RoomNumber);
+
+            var patternGenerator = new TimePatternGenerator();
+            var patterns = patternGenerator.Generate();
+
+            var slotGenerator = new TimeslotGenerator(rooms, patterns);
+            var slots = slotGenerator.Generate();
+
+            foreach (var slot in slots)
+                Console.WriteLine(slot.ToString());
         }
 
     }
