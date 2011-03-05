@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace AlgorithmRunner
+namespace AlgorithmRunner.ConflictWeights
 {
     public class CourseCoRegistrationLoader
     {

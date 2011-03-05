@@ -43,21 +43,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConflictWeightsGenerator.cs" />
-    <Compile Include="CourseSectionLoader.cs" />
-    <Compile Include="CourseCoRegistrationLoader.cs" />
+    <Compile Include="ConflictWeights\ConflictWeightsGenerator.cs" />
+    <Compile Include="ConflictWeights\CourseSectionLoader.cs" />
+    <Compile Include="ConflictWeights\CourseCoRegistrationLoader.cs" />
+    <Compile Include="Entities\InstructorLoader.cs" />
+    <Compile Include="Entities\Instructor.cs" />
+    <Compile Include="Entities\Section.cs" />
+    <Compile Include="Entities\SectionInstructorJoiner.cs" />
+    <Compile Include="Entities\SectionLoader.cs" />
+    <Compile Include="Entities\SectionSlotJoiner.cs" />
+    <Compile Include="Entities\SectionSlot.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Room.cs" />
-    <Compile Include="RoomLoader.cs" />
-    <Compile Include="SectionCoRegistrationLoader.cs" />
-    <Compile Include="SectionCourseLoader.cs" />
-    <Compile Include="StudentCourseLoader.cs" />
-    <Compile Include="StudentSectionLoader.cs" />
-    <Compile Include="TimePattern.cs" />
-    <Compile Include="TimePatternGenerator.cs" />
-    <Compile Include="Timeslot.cs" />
-    <Compile Include="TimeslotGenerator.cs" />
+    <Compile Include="Entities\Room.cs" />
+    <Compile Include="Entities\RoomLoader.cs" />
+    <Compile Include="ConflictWeights\SectionCoRegistrationLoader.cs" />
+    <Compile Include="ConflictWeights\SectionCourseLoader.cs" />
+    <Compile Include="ConflictWeights\StudentCourseLoader.cs" />
+    <Compile Include="ConflictWeights\StudentSectionLoader.cs" />
+    <Compile Include="Entities\TimePattern.cs" />
+    <Compile Include="Entities\TimePatternGenerator.cs" />
+    <Compile Include="Entities\Timeslot.cs" />
+    <Compile Include="Entities\TimeslotGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

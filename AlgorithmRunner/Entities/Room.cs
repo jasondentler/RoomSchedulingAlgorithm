@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace AlgorithmRunner
+namespace AlgorithmRunner.Entities
 {
-    public struct Room
+    public class Room
     {
         public readonly string Building;
         public readonly string RoomNumber;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AlgorithmRunner
+namespace AlgorithmRunner.ConflictWeights
 {
     public class StudentCourseLoader
     {

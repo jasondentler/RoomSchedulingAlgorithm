@@ -1,6 +1,6 @@
-﻿namespace AlgorithmRunner
+﻿namespace AlgorithmRunner.Entities
 {
-    public struct Timeslot
+    public class Timeslot
     {
 
         public readonly Room Room;

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Xml.Linq;
 
-namespace AlgorithmRunner
+namespace AlgorithmRunner.ConflictWeights
 {
     public class SectionCourseLoader
     {

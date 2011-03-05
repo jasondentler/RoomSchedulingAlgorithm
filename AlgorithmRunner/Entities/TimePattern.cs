@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AlgorithmRunner
+namespace AlgorithmRunner.Entities
 {
 
-    public struct TimePattern
+    public class TimePattern
     {
         public readonly DaysOfWeekBitMask Days;
         public readonly DateTime Start;
