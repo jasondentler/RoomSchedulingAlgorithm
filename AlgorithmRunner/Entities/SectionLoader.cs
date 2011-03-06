@@ -38,9 +38,14 @@ namespace AlgorithmRunner.Entities
                                            .Select(a => a.Value)
                                            .Distinct())
                                        })
+                .Where(s => IsCoreAcademic(s.section))
                 .ToDictionary(item => item.id, item => item.section);
         }
 
-    }
+        private static bool IsCoreAcademic(Section section)
+        {
+            return new[] {"ENGL"}.Any(i => section.Name.StartsWith(i));
+        }
 
+    }
 }

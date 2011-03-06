@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using AlgorithmRunner.ConflictWeights;
 using AlgorithmRunner.Entities;
+using AlgorithmRunner.Indexers;
 
 namespace AlgorithmRunner
 {
@@ -39,13 +40,16 @@ namespace AlgorithmRunner
         private void BuildMatrix()
         {
             var roomLoader = new RoomLoader(Path.Combine(RawDataDirectory, "Rooms.xml"));
-            var rooms = roomLoader.Load().OrderBy(r => r.RoomNumber);
+            var rooms = roomLoader.Load().OrderBy(r => r.RoomNumber).ToArray();
+            Console.WriteLine("{0} rooms loaded", rooms.Count());
 
             var patternGenerator = new TimePatternGenerator();
-            var patterns = patternGenerator.Generate();
+            var patterns = patternGenerator.Generate().Where(p => p.Start.Hour < 12).ToArray();
+            Console.WriteLine("{0} time patterns generated", patterns.Count());
 
-            var slotGenerator = new TimeslotGenerator(rooms, patterns);
-            var slots = slotGenerator.Generate();
+            var slotGenerator = new RoomPatternJoiner(rooms, patterns);
+            var slots = slotGenerator.Generate().ToArray();
+            Console.WriteLine("{0} time slots created.", slots.Count());
 
             var instructorLoader = new InstructorLoader(
                 Path.Combine(RawDataDirectory, "Faculty.xml"));
@@ -54,27 +58,39 @@ namespace AlgorithmRunner
             var FFaculty = instructorMap
                 .Where(e => e.Value.FirstName.StartsWith("F") && e.Value.LastName == "Faculty");
 
-            if (FFaculty.Any())
-                instructorMap.Remove(FFaculty.Single());
+            while (FFaculty.Any())
+            {
+                instructorMap.Remove(FFaculty.First());
+            }
 
+            Console.WriteLine("{0} instructors loaded.",
+                              instructorMap.Count);
+            
             var sectionLoader = new SectionLoader(
                 Path.Combine(RawDataDirectory, "Sections.xml"));
             var sectionMap = sectionLoader.Load();
+            Console.WriteLine("{0} sections loaded",
+                              sectionMap.Count);
 
             var sectionInstructorJoiner = new SectionInstructorJoiner(
                 Path.Combine(RawDataDirectory, "SectionFaculty.xml"),
                 sectionMap, instructorMap);
             sectionInstructorJoiner.Load();
 
-            var sections = sectionMap.Values.Distinct().ToArray();
+            var sections = sectionMap.Values.Distinct()
+                .Where(section => new[] {"ENGL", "MATH", "HIST"}.Any(subject => section.Name.StartsWith(subject)))
+                .ToArray();
 
             var sectionSlotJoiner = new SectionSlotJoiner(sections, slots);
             var sectionSlots = sectionSlotJoiner.Generate().ToArray();
 
-            Console.WriteLine("{0} section/slot combinations for {1} sections and {2} slots",
+            Console.WriteLine("{0} valid section/slot combinations for {1} sections and {2} slots",
                 sectionSlots.Count(), sections.Count(), slots.Count());
 
             FindImpossibleSections(sections, sectionSlots);
+
+            var conflictIndexGenerator = new ConflictIndexGenerator(sectionSlots);
+            var conflictIndex = conflictIndexGenerator.Generate().ToArray();
 
         }
 

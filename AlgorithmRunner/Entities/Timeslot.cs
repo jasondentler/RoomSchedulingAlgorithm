@@ -1,4 +1,6 @@
-﻿namespace AlgorithmRunner.Entities
+﻿using AlgorithmRunner.Filters;
+
+namespace AlgorithmRunner.Entities
 {
     public class Timeslot
     {
@@ -15,6 +17,11 @@
         public override string ToString()
         {
             return string.Format("{0} {1}", Room, Pattern);
+        }
+
+        public static bool IsValid(Room room, TimePattern pattern)
+        {
+            return RoomPatternFilters.Instance.IsValid(room, pattern);
         }
 
     }

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace AlgorithmRunner.Entities
@@ -16,10 +18,10 @@ namespace AlgorithmRunner.Entities
 
         public IEnumerable<SectionSlot> Generate()
         {
-            return from section in _sections
-                   from slot in _slots
-                   where SectionSlot.IsValid(section, slot)
-                   select new SectionSlot(section, slot);
+            return from section in _sections.AsParallel()
+                    from slot in _slots.AsParallel()
+                    where SectionSlot.IsValid(section, slot)
+                    select new SectionSlot(section, slot);
         }
     }
 }

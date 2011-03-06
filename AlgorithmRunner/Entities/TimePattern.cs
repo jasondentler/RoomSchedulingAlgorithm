@@ -35,6 +35,11 @@ namespace AlgorithmRunner.Entities
                    End == other.End;
         }
 
+        public override int GetHashCode()
+        {
+            return Days.GetHashCode() ^ Start.GetHashCode() ^ End.GetHashCode();
+        }
+
     }
 
     [Flags]

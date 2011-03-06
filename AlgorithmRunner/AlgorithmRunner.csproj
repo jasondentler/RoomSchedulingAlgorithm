@@ -48,11 +48,26 @@
     <Compile Include="ConflictWeights\CourseCoRegistrationLoader.cs" />
     <Compile Include="Entities\InstructorLoader.cs" />
     <Compile Include="Entities\Instructor.cs" />
+    <Compile Include="Entities\InstructorSlot.cs" />
+    <Compile Include="Indexers\ConflictIndexGenerator.cs" />
+    <Compile Include="Indexers\InstructorConflictIndexGenerator.cs" />
+    <Compile Include="Indexers\RoomConflictIndexGenerator.cs" />
+    <Compile Include="Indexers\InstructorSlotIndexGenerator.cs" />
+    <Compile Include="Indexers\TimeslotIndexGenerator.cs" />
     <Compile Include="Entities\Section.cs" />
     <Compile Include="Entities\SectionInstructorJoiner.cs" />
     <Compile Include="Entities\SectionLoader.cs" />
     <Compile Include="Entities\SectionSlotJoiner.cs" />
     <Compile Include="Entities\SectionSlot.cs" />
+    <Compile Include="Filters\InstructorRoomFilters.cs" />
+    <Compile Include="Filters\InstructorPatternFilters.cs" />
+    <Compile Include="Filters\FilterContainer.cs" />
+    <Compile Include="Filters\IFilter.cs" />
+    <Compile Include="Filters\RoomPatternFilters.cs" />
+    <Compile Include="Filters\Rules\RoomCapacityRule.cs" />
+    <Compile Include="Filters\Rules\RoomEquipmentRule.cs" />
+    <Compile Include="Filters\SectionPatternFilters.cs" />
+    <Compile Include="Filters\SectionRoomFilters.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\Room.cs" />
@@ -64,8 +79,9 @@
     <Compile Include="Entities\TimePattern.cs" />
     <Compile Include="Entities\TimePatternGenerator.cs" />
     <Compile Include="Entities\Timeslot.cs" />
-    <Compile Include="Entities\TimeslotGenerator.cs" />
+    <Compile Include="Entities\RoomPatternJoiner.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
