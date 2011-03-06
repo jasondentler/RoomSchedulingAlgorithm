@@ -1,0 +1,4 @@
+﻿CREATE TABLE Instructors (
+	Id INTEGER PRIMARY KEY AUTOINCREMENT,
+	ExternalInstructorId VARCHAR
+)

@@ -1,20 +1,20 @@
-﻿using AlgorithmRunner.Entities;
+﻿//using AlgorithmRunner.Entities;
 
-namespace AlgorithmRunner.Filters
-{
-    public class InstructorRoomFilters : FilterContainer<Instructor, Room>
-    {
+//namespace AlgorithmRunner.Filters
+//{
+//    public class InstructorRoomFilters : FilterContainer<Instructor, Room>
+//    {
 
-        public static readonly InstructorRoomFilters Instance;
+//        public static readonly InstructorRoomFilters Instance;
 
-        static InstructorRoomFilters()
-        {
-            Instance = new InstructorRoomFilters();
-        }
+//        static InstructorRoomFilters()
+//        {
+//            Instance = new InstructorRoomFilters();
+//        }
         
-        private InstructorRoomFilters()
-        {
-        }
+//        private InstructorRoomFilters()
+//        {
+//        }
 
-    }
-}
+//    }
+//}

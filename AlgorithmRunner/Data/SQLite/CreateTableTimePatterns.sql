@@ -1,0 +1,6 @@
+﻿CREATE TABLE TimePatterns (
+	Id INTEGER PRIMARY KEY AUTOINCREMENT,
+	Days TINYINT,
+	StartTime TIME,
+	EndTime TIME
+)

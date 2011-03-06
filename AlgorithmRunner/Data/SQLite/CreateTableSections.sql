@@ -1,0 +1,6 @@
+﻿CREATE TABLE Sections (
+	Id INTEGER PRIMARY KEY AUTOINCREMENT,
+	ExternalSectionId VARCHAR,
+	Capacity SMALLINT,
+	InstructorId INTEGER
+)

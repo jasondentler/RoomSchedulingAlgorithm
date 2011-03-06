@@ -1,21 +1,21 @@
-﻿using AlgorithmRunner.Entities;
+﻿//using AlgorithmRunner.Entities;
 
-namespace AlgorithmRunner.Filters
-{
-    public class SectionPatternFilters
-        : FilterContainer<Section, TimePattern>
-    {
+//namespace AlgorithmRunner.Filters
+//{
+//    public class SectionPatternFilters
+//        : FilterContainer<Section, TimePattern>
+//    {
 
-        public static readonly SectionPatternFilters Instance;
+//        public static readonly SectionPatternFilters Instance;
 
-        static SectionPatternFilters()
-        {
-            Instance = new SectionPatternFilters();
-        }
+//        static SectionPatternFilters()
+//        {
+//            Instance = new SectionPatternFilters();
+//        }
 
-        private SectionPatternFilters()
-        {
-        }
+//        private SectionPatternFilters()
+//        {
+//        }
 
-    }
-}
+//    }
+//}

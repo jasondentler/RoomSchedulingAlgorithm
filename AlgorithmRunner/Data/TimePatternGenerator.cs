@@ -1,17 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
+using AlgorithmRunner.Entities;
 
-namespace AlgorithmRunner.Entities
+namespace AlgorithmRunner.Data
 {
 
     public class TimePatternGenerator
     {
 
-        public TimePatternGenerator()
+        private readonly Database _database;
+
+        public TimePatternGenerator(Database database)
         {
+            _database = database;
         }
 
-        public IEnumerable<TimePattern> Generate()
+        public void Generate()
         {
             var mwf = DaysOfWeekBitMaskExtensions.Convert(new[]
                                                               {
@@ -28,7 +31,8 @@ namespace AlgorithmRunner.Entities
             while (start.Hour < 17)
             {
                 var end = start.AddMinutes(50);
-                yield return new TimePattern(mwf, start, end);
+                var pattern = new TimePattern(mwf, start, end);
+                _database.AddTimePattern(pattern);
                 start = start.AddHours(1);
             }
 
@@ -36,7 +40,8 @@ namespace AlgorithmRunner.Entities
             while (start.Hour < 12)
             {
                 var end = start.AddMinutes(80);
-                yield return new TimePattern(tth, start, end);
+                var pattern = new TimePattern(tth, start, end);
+                _database.AddTimePattern(pattern);
                 start = start.AddMinutes(90);
             }
 
@@ -44,7 +49,8 @@ namespace AlgorithmRunner.Entities
             while (start.Hour < 17)
             {
                 var end = start.AddMinutes(80);
-                yield return new TimePattern(tth, start, end);
+                var pattern = new TimePattern(tth, start, end);
+                _database.AddTimePattern(pattern);
                 start = start.AddMinutes(90);
             }
 

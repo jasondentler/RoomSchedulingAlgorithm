@@ -1,0 +1,5 @@
+﻿CREATE TABLE SectionEquipment (
+	Id INTEGER PRIMARY KEY AUTOINCREMENT,
+	SectionId INTEGER,
+	Equipment VARCHAR
+)

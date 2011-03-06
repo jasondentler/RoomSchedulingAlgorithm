@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using AlgorithmRunner.ConflictWeights;
-using AlgorithmRunner.Entities;
-using AlgorithmRunner.Indexers;
+using AlgorithmRunner.Data;
+using AlgorithmRunner.Data.SQLite;
 
 namespace AlgorithmRunner
 {
@@ -23,7 +21,7 @@ namespace AlgorithmRunner
         static void Main(string[] args)
         {
             var p = new Program();
-            p.BuildMatrix();
+            p.PopulateDatabase();
             Console.WriteLine("Press any key");
             Console.ReadKey();
         }
@@ -37,74 +35,42 @@ namespace AlgorithmRunner
             weights.Generate(Path.Combine(RawDataDirectory, "ConflictWeights.xml"));
         }
 
-        private void BuildMatrix()
+        private void PopulateDatabase()
         {
-            var roomLoader = new RoomLoader(Path.Combine(RawDataDirectory, "Rooms.xml"));
-            var rooms = roomLoader.Load().OrderBy(r => r.RoomNumber).ToArray();
-            Console.WriteLine("{0} rooms loaded", rooms.Count());
+            var db = new SQLiteDatabase();
 
-            var patternGenerator = new TimePatternGenerator();
-            var patterns = patternGenerator.Generate().Where(p => p.Start.Hour < 12).ToArray();
-            Console.WriteLine("{0} time patterns generated", patterns.Count());
+            Time(db.Initialize);
 
-            var slotGenerator = new RoomPatternJoiner(rooms, patterns);
-            var slots = slotGenerator.Generate().ToArray();
-            Console.WriteLine("{0} time slots created.", slots.Count());
-
-            var instructorLoader = new InstructorLoader(
-                Path.Combine(RawDataDirectory, "Faculty.xml"));
-            var instructorMap = instructorLoader.Load();
-
-            var FFaculty = instructorMap
-                .Where(e => e.Value.FirstName.StartsWith("F") && e.Value.LastName == "Faculty");
-
-            while (FFaculty.Any())
-            {
-                instructorMap.Remove(FFaculty.First());
-            }
-
-            Console.WriteLine("{0} instructors loaded.",
-                              instructorMap.Count);
-            
             var sectionLoader = new SectionLoader(
-                Path.Combine(RawDataDirectory, "Sections.xml"));
-            var sectionMap = sectionLoader.Load();
-            Console.WriteLine("{0} sections loaded",
-                              sectionMap.Count);
+                Path.Combine(RawDataDirectory, "Sections.xml"), db);
+            Time(sectionLoader.Load);
+            
+            var instructorLoader = new InstructorLoader(
+                Path.Combine(RawDataDirectory, "SectionFaculty.xml"), db);
+            Time(instructorLoader.Load);
 
-            var sectionInstructorJoiner = new SectionInstructorJoiner(
-                Path.Combine(RawDataDirectory, "SectionFaculty.xml"),
-                sectionMap, instructorMap);
-            sectionInstructorJoiner.Load();
+            var roomLoader = new RoomLoader(
+                Path.Combine(RawDataDirectory, "Rooms.xml"), db);
+            Time(roomLoader.Load);
+            
+            var timePatternGenerator = new TimePatternGenerator(db);
+            Time(timePatternGenerator.Generate);
 
-            var sections = sectionMap.Values.Distinct()
-                .Where(section => new[] {"ENGL", "MATH", "HIST"}.Any(subject => section.Name.StartsWith(subject)))
-                .ToArray();
-
-            var sectionSlotJoiner = new SectionSlotJoiner(sections, slots);
-            var sectionSlots = sectionSlotJoiner.Generate().ToArray();
-
-            Console.WriteLine("{0} valid section/slot combinations for {1} sections and {2} slots",
-                sectionSlots.Count(), sections.Count(), slots.Count());
-
-            FindImpossibleSections(sections, sectionSlots);
-
-            var conflictIndexGenerator = new ConflictIndexGenerator(sectionSlots);
-            var conflictIndex = conflictIndexGenerator.Generate().ToArray();
-
+            Time(db.BuildChoices);
+            Time(db.FilterChoicesBasedOnCapacity);
+            Time(db.FilterChoicesBasedOnEquipment);
         }
 
-        private void FindImpossibleSections(IEnumerable<Section> sections, IEnumerable<SectionSlot> sectionSlots)
+        private void Time(Action action)
         {
-            var possibleSections = sectionSlots.Select(ss => ss.Section).Distinct().ToArray();
-            var impossibleSections = sections.Except(possibleSections);
-            
-            if (impossibleSections.Any())
+            var sw = new Stopwatch();
+            sw.Start();
+            action();
+            sw.Stop();
+            if (sw.Elapsed.TotalSeconds >= 1.0)
             {
-                Console.WriteLine("{0} sections removed from preprocessor because no suitable slot could be found",
-                    impossibleSections.Count());
-                foreach (var section in impossibleSections)
-                    Console.WriteLine(section.Name);
+                Console.WriteLine("Operation took {0}", sw.Elapsed);
+                Console.WriteLine();
             }
         }
 

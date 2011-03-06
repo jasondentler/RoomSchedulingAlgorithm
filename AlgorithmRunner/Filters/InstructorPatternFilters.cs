@@ -1,20 +1,20 @@
-﻿using AlgorithmRunner.Entities;
+﻿//using AlgorithmRunner.Entities;
 
-namespace AlgorithmRunner.Filters
-{
-    public class InstructorPatternFilters : FilterContainer<Instructor, TimePattern>
-    {
+//namespace AlgorithmRunner.Filters
+//{
+//    public class InstructorPatternFilters : FilterContainer<Instructor, TimePattern>
+//    {
 
-        public static readonly InstructorPatternFilters Instance;
+//        public static readonly InstructorPatternFilters Instance;
 
-        static InstructorPatternFilters()
-        {
-            Instance = new InstructorPatternFilters();
-        }
+//        static InstructorPatternFilters()
+//        {
+//            Instance = new InstructorPatternFilters();
+//        }
         
-        private InstructorPatternFilters()
-        {
-        }
+//        private InstructorPatternFilters()
+//        {
+//        }
 
-    }
-}
+//    }
+//}

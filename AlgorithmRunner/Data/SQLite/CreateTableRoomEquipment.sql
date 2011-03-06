@@ -1,0 +1,5 @@
+﻿CREATE TABLE RoomEquipment (
+	Id INTEGER PRIMARY KEY AUTOINCREMENT,
+	RoomId INTEGER,
+	Equipment VARCHAR
+)
